@@ -1,0 +1,37 @@
+.about-container {
+    position: relative;
+    height: 100vh; /* Full viewport height */
+    width: 100%;
+    background-image: url('./Online-Book-Store-Logo-Generator-VL007.jpeg'); /* Ensure the path is correct */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: brightness(70%); /* Make the background image lighter */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-box {
+    background: rgba(255, 255, 255, 0.9); /* Slightly more opaque white background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Slightly more prominent shadow */
+    text-align: center;
+    font-family: 'Arial', sans-serif; /* Change font family as needed */
+}
+
+.content-box h2 {
+    font-weight: bolder; /* Make the main heading bolder */
+    color: #111; /* Darker color for better contrast */
+}
+
+.content-box h5 {
+    font-weight: bolder; /* Make subheadings bolder */
+    color: #333; /* Slightly darker color */
+}
+
+.content-box p {
+    font-weight: bold; /* Make paragraph text bolder */
+    color: #444; /* Darker color for text */
+}
