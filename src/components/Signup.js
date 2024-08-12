@@ -16,7 +16,7 @@ const Signup = () => {
     setLoading(true);
     setError("");
     try {
-      await axios.post("http://localhost:5000/auth/signup", {
+      await axios.post("https://book-store-backend-2gzw.onrender.com/auth/signup", {
         name,
         email,
         password,
