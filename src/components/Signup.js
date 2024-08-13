@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Container, TextField, Button, Typography, Box, CircularProgress, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import cover from "./abstract-blur-beautiful-luxury-shopping-mall-center.jpg"; // Importing the background image
 import axios from "axios";
 
 const Signup = () => {
@@ -31,10 +32,30 @@ const Signup = () => {
   };
 
   return (
-    <Container maxWidth="xs">
-      <Box sx={{ mt: 10, textAlign: "center" }}>
-        <Paper elevation={6} sx={{ p: 4 }}>
-          <Typography variant="h4" color="primary" gutterBottom>
+    <Box
+      sx={{
+        minHeight: "100vh", // Ensure the background covers the whole viewport
+        backgroundImage: `url(${cover})`, // Set the background image
+        backgroundSize: "cover", // Make sure the image covers the entire area
+        backgroundPosition: "center", // Center the background image
+        backgroundRepeat: "no-repeat", // Prevent the background from repeating
+        display: "flex", // Use flexbox to center the form
+        justifyContent: "center", // Center horizontally
+        alignItems: "center", // Center vertically
+      }}
+    >
+      <Container maxWidth="xs">
+        <Paper
+          elevation={6}
+          sx={{
+            p: 4,
+            backgroundColor: "rgba(255, 255, 255, 0.85)", // Slightly more opaque background
+            backdropFilter: "blur(8px)", // Reduced blur effect
+            borderRadius: 3, // Slightly more rounded corners
+            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)", // Lighter shadow
+          }}
+        >
+          <Typography variant="h4" color="primary" fontWeight="bold" gutterBottom>
             Join Book Haven
           </Typography>
           <Typography variant="h6" gutterBottom>
@@ -55,6 +76,11 @@ const Signup = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               error={Boolean(error)}
+              sx={{
+                "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#3f51b5",
+                },
+              }}
             />
             <TextField
               variant="outlined"
@@ -65,6 +91,11 @@ const Signup = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               error={Boolean(error)}
+              sx={{
+                "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#3f51b5",
+                },
+              }}
             />
             <TextField
               variant="outlined"
@@ -76,6 +107,11 @@ const Signup = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               error={Boolean(error)}
+              sx={{
+                "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#3f51b5",
+                },
+              }}
             />
             <Box sx={{ position: "relative" }}>
               <Button
@@ -88,7 +124,7 @@ const Signup = () => {
                   mb: 2,
                   transition: "background-color 0.3s, transform 0.3s",
                   "&:hover": {
-                    backgroundColor: "#303f9f",
+                    backgroundColor: "#3f51b5", // Hover color
                     transform: "scale(1.02)",
                   },
                 }}
@@ -114,8 +150,8 @@ const Signup = () => {
             Already have an account? Login
           </Button>
         </Paper>
-      </Box>
-    </Container>
+      </Container>
+    </Box>
   );
 };
 
