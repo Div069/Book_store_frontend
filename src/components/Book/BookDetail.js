@@ -18,7 +18,7 @@ const BookDetail = () => {
   useEffect(() => {
     const fetchHandler = async () => {
       await axios
-        .get(`https://book-store-tr0n.onrender.com/books/${id}`)
+        .get(`https://book-store-backend-2gzw.onrender.com/books/${id}`)
         .then((res) => res.data)
         .then((data) => setInputs(data.book));
     };
@@ -27,7 +27,7 @@ const BookDetail = () => {
 
   const sendRequest = async () => {
     await axios
-      .put(`https://book-store-tr0n.onrender.com/books/${id}`, {
+      .put(`https://book-store-backend-2gzw.onrender.com/books/${id}`, {
         name: String(inputs.name),
         author: String(inputs.author),
         description: String(inputs.description),
