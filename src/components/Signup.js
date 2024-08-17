@@ -5,7 +5,7 @@ import cover from "./abstract-blur-beautiful-luxury-shopping-mall-center.jpg"; /
 import axios from "axios";
 
 const Signup = () => {
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -18,7 +18,7 @@ const Signup = () => {
     setError("");
     try {
       await axios.post("https://book-store-backend-2gzw.onrender.com/auth/signup", {
-        name,
+        username,
         email,
         password,
       });
@@ -73,8 +73,8 @@ const Signup = () => {
               required
               fullWidth
               label="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               error={Boolean(error)}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
