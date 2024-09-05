@@ -8,6 +8,7 @@ import About from "./components/About";
 import BookDetail from "./components/Book/BookDetail";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import UsersList from "./components/UsersList"; // Import the new UsersList component
 
 const ProtectedRoute = ({ element: Element }) => {
   const isAuthenticated = localStorage.getItem("token");
@@ -24,7 +25,11 @@ function App() {
       </header>
       <main>
         <Routes>
-          <Route path="/" element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />} exact />
+          <Route
+            path="/"
+            element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />}
+            exact
+          />
           <Route path="/login" element={<Login />} exact />
           <Route path="/signup" element={<Signup />} exact />
           <Route path="/home" element={<ProtectedRoute element={Home} />} exact />
@@ -32,6 +37,8 @@ function App() {
           <Route path="/books" element={<ProtectedRoute element={Books} />} exact />
           <Route path="/about" element={<ProtectedRoute element={About} />} exact />
           <Route path="/books/:id" element={<ProtectedRoute element={BookDetail} />} exact />
+          {/* Add a new route for the UsersList page */}
+          <Route path="/users" element={<ProtectedRoute element={UsersList} />} exact />
         </Routes>
       </main>
     </React.Fragment>
