@@ -1,0 +1,14 @@
+.add-book-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .book-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  

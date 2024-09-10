@@ -1,125 +1,134 @@
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  FormLabel,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { Box } from "@mui/system";
-import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { TextField, Button, Typography } from "@mui/material";
+import "./AddBook.css";
 
 const AddBook = () => {
-  const history = useNavigate();
-  const [inputs, setInputs] = useState({
-    Name: "",
-    Description: "",
-    Price: "",
-    Author: "",
+  const navigate = useNavigate();
 
-    image: "",
-  });
-  const [checked, setChecked] = useState(false);
-  const handleChange = (e) => {
-    setInputs((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-    // console.log(e.target.name, "Value", e.target.value);
-  };
+  // Form state
+  const [name, setName] = useState("");
+  const [author, setAuthor] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [image, setImage] = useState("");
+  const [available, setAvailable] = useState(true); // Default availability is true
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const sendRequest = async () => {
-    await axios
-      .post("https://book-store-backend-2gzw.onrender.com/books", {
-        name: String(inputs.name),
-        author: String(inputs.author),
-        description: String(inputs.description),
-        price: Number(inputs.price),
-        image: String(inputs.image),
-        available: Boolean(checked),
-      })
-      .then((res) => res.data);
-  };
+  // Check if the logged-in user is admin and adjust availability default
+  useEffect(() => {
+    const userEmail = localStorage.getItem("email");
+    if (userEmail === "admin@example.com") {
+      setAvailable(true);  // Admin can add books as available
+    } else {
+      setAvailable(false); // Non-admin users should have books unavailable by default
+    }
+  }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(inputs, checked);
-    sendRequest().then(() => history("/books"));
+    setLoading(true);
+    setError("");
+
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        setError("User is not authenticated.");
+        setLoading(false);
+        return;
+      }
+
+      const response = await axios.post(
+        "https://book-store-backend-2gzw.onrender.com/books/add-or-update",  
+        {
+          name,
+          author,
+          description,
+          price,
+          image,
+          available,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        alert("Book updated successfully!");
+      } else if (response.status === 201) {
+        alert("Book added successfully!");
+      }
+
+      navigate("/books");  
+    } catch (err) {
+      console.error("Error while adding/updating the book:", err);
+      setError("Failed to add or update the book.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent={"center"}
-        maxWidth={700}
-        alignContent={"center"}
-        alignSelf="center"
-        marginLeft={"auto"}
-        marginRight="auto"
-        marginTop={10}
+    <form onSubmit={handleSubmit} className="add-book-form">
+      <Typography variant="h4" component="h1" gutterBottom>
+        {loading ? "Processing..." : "Add or Update Book"}
+      </Typography>
+
+      <TextField
+        label="Book Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+        fullWidth
+      />
+      <TextField
+        label="Author"
+        value={author}
+        onChange={(e) => setAuthor(e.target.value)}
+        required
+        fullWidth
+      />
+      <TextField
+        label="Description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        required
+        multiline
+        fullWidth
+      />
+      <TextField
+        label="Price"
+        type="number"
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+        required
+        fullWidth
+      />
+      <TextField
+        label="Image URL"
+        value={image}
+        onChange={(e) => setImage(e.target.value)}
+        required
+        fullWidth
+      />
+
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        disabled={loading}  // Disable button while loading
+        sx={{ mt: 3 }}
       >
-        <FormLabel>Name</FormLabel>
-        <TextField
-          value={inputs.name}
-          onChange={handleChange}
-          margin="normal"
-          fullWidth
-          variant="outlined"
-          name="name"
-        />
-        <FormLabel>Author</FormLabel>
-        <TextField
-          value={inputs.author}
-          onChange={handleChange}
-          margin="normal"
-          fullWidth
-          variant="outlined"
-          name="author"
-        />
-        <FormLabel>Description</FormLabel>
-        <TextField
-          value={inputs.description}
-          onChange={handleChange}
-          margin="normal"
-          fullWidth
-          variant="outlined"
-          name="description"
-        />
-        <FormLabel>Price</FormLabel>
-        <TextField
-          value={inputs.price}
-          onChange={handleChange}
-          type="number"
-          margin="normal"
-          fullWidth
-          variant="outlined"
-          name="price"
-        />
-        <FormLabel>Image</FormLabel>
-        <TextField
-          value={inputs.image}
-          onChange={handleChange}
-          margin="normal"
-          fullWidth
-          variant="outlined"
-          name="image"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox checked={checked} onChange={() => setChecked(!checked)} />
-          }
-          label="Available"
-        />
-        <Button variant="contained" type="submit" borderRadius={24}>
-          Add Book
-        </Button>
-      </Box>
+        {loading ? "Submitting..." : "Submit"}
+      </Button>
+
+      {error && <Typography color="error">{error}</Typography>}
     </form>
   );
 };
-
 export default AddBook;

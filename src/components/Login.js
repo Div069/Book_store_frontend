@@ -1,21 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Container, TextField, Button, Typography, Box, CircularProgress, Paper, Fade } from "@mui/material";
+import React, { useState } from "react";
+import { Container, TextField, Button, Typography, Box, CircularProgress, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import cover from "./abstract-blur-beautiful-luxury-shopping-mall-center.jpg"; // Importing the background image
 import axios from "axios";
-import cover from "./abstract-blur-beautiful-luxury-shopping-mall-center.jpg";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [fadeIn, setFadeIn] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // Trigger the fade-in effect when the component mounts
-    setFadeIn(true);
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,7 +21,11 @@ const Login = () => {
         password,
       });
 
+      // Store the token, userId, and email in localStorage
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("userId", response.data.userId);
+      localStorage.setItem("email", email);  // Store the email to check if the user is admin
+
       navigate("/home"); // Redirect to home page after login
     } catch (err) {
       setError("Invalid email or password. Please try again.");
@@ -40,102 +38,107 @@ const Login = () => {
   return (
     <Box
       sx={{
-        height: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundImage: `url(${cover})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+        minHeight: "100vh", // Ensure the background covers the whole viewport
+        backgroundImage: `url(${cover})`, // Set the background image
+        backgroundSize: "cover", // Make sure the image covers the entire area
+        backgroundPosition: "center", // Center the background image
+        backgroundRepeat: "no-repeat", // Prevent the background from repeating
+        display: "flex", // Use flexbox to center the form
+        justifyContent: "center", // Center horizontally
+        alignItems: "center", // Center vertically
       }}
     >
       <Container maxWidth="xs">
-        <Fade in={fadeIn} timeout={1000}>
-          <Paper
-            elevation={6}
-            sx={{
-              p: 4,
-              backgroundColor: "rgba(255, 255, 255, 0.8)", // Semi-transparent background
-              backdropFilter: "blur(10px)", // Optional: Blur the background image behind the form
-              borderRadius: 2,
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.3)",
-            }}
-          >
-            <Typography variant="h4" color="primary" fontWeight="bold" style={{ textAlign: "center" }} gutterBottom>
-              Welcome to Book 
+        <Paper
+          elevation={6}
+          sx={{
+            p: 4,
+            backgroundColor: "rgba(255, 255, 255, 0.85)", // Slightly more opaque background
+            backdropFilter: "blur(8px)", // Reduced blur effect
+            borderRadius: 3, // Slightly more rounded corners
+            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)", // Lighter shadow
+          }}
+        >
+          <Typography variant="h4" color="primary" fontWeight="bold" gutterBottom>
+            Welcome Back
+          </Typography>
+          <Typography variant="h6" gutterBottom>
+            Login to your account
+          </Typography>
+          {error && (
+            <Typography variant="body2" color="error" gutterBottom>
+              {error}
             </Typography>
-            <Typography variant="h4" color="primary" fontWeight="bold" style={{ textAlign: "center" }}>
-  Haven
-</Typography>
-            <Typography variant="h6" gutterBottom>
-              Login to Continue
-            </Typography>
-            {error && (
-              <Typography variant="body2" color="error" gutterBottom>
-                {error}
-              </Typography>
-            )}
-            <form onSubmit={handleSubmit} noValidate>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                label="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                error={Boolean(error)}
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                label="Password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                error={Boolean(error)}
-              />
-              <Box sx={{ position: "relative" }}>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    mt: 3,
-                    mb: 2,
-                    transition: "background-color 0.3s, transform 0.3s",
-                    "&:hover": {
-                      backgroundColor: "#303f9f",
-                      transform: "scale(1.02)",
-                    },
-                  }}
-                  disabled={loading}
-                >
-                  {loading ? <CircularProgress size={24} sx={{ color: "white" }} /> : "Login"}
-                </Button>
-              </Box>
-            </form>
-            <Button
-              onClick={() => navigate("/signup")}
-              fullWidth
+          )}
+          <form onSubmit={handleSubmit} noValidate>
+            <TextField
               variant="outlined"
-              color="secondary"
+              margin="normal"
+              required
+              fullWidth
+              label="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              error={Boolean(error)}
               sx={{
-                transition: "border-color 0.3s, transform 0.3s",
-                "&:hover": {
-                  borderColor: "#f50057",
-                  transform: "scale(1.02)",
+                "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#3f51b5",
                 },
               }}
-            >
-              Don't have an account? Sign Up
-            </Button>
-          </Paper>
-        </Fade>
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              label="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              error={Boolean(error)}
+              sx={{
+                "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#3f51b5",
+                },
+              }}
+            />
+            <Box sx={{ position: "relative" }}>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  transition: "background-color 0.3s, transform 0.3s",
+                  "&:hover": {
+                    backgroundColor: "#3f51b5", // Hover color
+                    transform: "scale(1.02)",
+                  },
+                }}
+                disabled={loading}
+              >
+                {loading ? <CircularProgress size={24} sx={{ color: "white" }} /> : "Login"}
+              </Button>
+            </Box>
+          </form>
+          <Button
+            onClick={() => navigate("/signup")}
+            fullWidth
+            variant="outlined"
+            color="secondary"
+            sx={{
+              transition: "border-color 0.3s, transform 0.3s",
+              "&:hover": {
+                borderColor: "#f50057",
+                transform: "scale(1.02)",
+              },
+            }}
+          >
+            Don't have an account? Sign Up
+          </Button>
+        </Paper>
       </Container>
     </Box>
   );

@@ -8,7 +8,9 @@ import About from "./components/About";
 import BookDetail from "./components/Book/BookDetail";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-import UsersList from "./components/UsersList"; // Import the new UsersList component
+import MyBooks from "./components/MyBooks";  
+import AllBooks from "./components/AllBooks";  
+import UsersList from "./components/UsersList";  // Import the UsersList component
 
 const ProtectedRoute = ({ element: Element }) => {
   const isAuthenticated = localStorage.getItem("token");
@@ -35,10 +37,11 @@ function App() {
           <Route path="/home" element={<ProtectedRoute element={Home} />} exact />
           <Route path="/add" element={<ProtectedRoute element={AddBook} />} exact />
           <Route path="/books" element={<ProtectedRoute element={Books} />} exact />
+          <Route path="/my-books" element={<ProtectedRoute element={MyBooks} />} exact /> 
+          <Route path="/all-books" element={<ProtectedRoute element={AllBooks} />} exact /> 
           <Route path="/about" element={<ProtectedRoute element={About} />} exact />
           <Route path="/books/:id" element={<ProtectedRoute element={BookDetail} />} exact />
-          {/* Add a new route for the UsersList page */}
-          <Route path="/users" element={<ProtectedRoute element={UsersList} />} exact />
+          <Route path="/users" element={<ProtectedRoute element={UsersList} />} exact />  {/* Members Route */}
         </Routes>
       </main>
     </React.Fragment>

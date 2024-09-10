@@ -8,9 +8,12 @@ const Header = () => {
   const navigate = useNavigate();
 
   const isAuthenticated = !!localStorage.getItem("token");
+  const isAdmin = localStorage.getItem("email") === "admin@example.com"; // Check if logged-in user is admin
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    localStorage.removeItem("userId");
     navigate("/login");
   };
 
@@ -31,11 +34,16 @@ const Header = () => {
         >
           {isAuthenticated ? (
             <>
-              <Tab LinkComponent={NavLink} to="/add" label="Add Product" />
-              <Tab LinkComponent={NavLink} to="/books" label="Books" />
+              {/* Conditionally render the My Books tab for non-admin users */}
+              {!isAdmin && (
+                <Tab LinkComponent={NavLink} to="/my-books" label="My Books" />
+              )}
+              <Tab LinkComponent={NavLink} to="/all-books" label="All Books" />
               <Tab LinkComponent={NavLink} to="/about" label="About Us" />
-              <Tab LinkComponent={NavLink} to="/users" label="Members" /> {/* New link for /users */}
-              <Button color="inherit" onClick={handleLogout}>Logout</Button>
+              <Tab LinkComponent={NavLink} to="/users" label="Members" />
+              <Button color="inherit" onClick={handleLogout}>
+                Logout
+              </Button>
             </>
           ) : (
             <>
