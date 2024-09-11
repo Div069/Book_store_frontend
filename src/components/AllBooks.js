@@ -122,7 +122,6 @@ const AllBooks = () => {
                 
                 {book.available ? (
                   <Typography variant="body1" className="status-available">
-                    Available
                   </Typography>
                 ) : (
                   <Typography
