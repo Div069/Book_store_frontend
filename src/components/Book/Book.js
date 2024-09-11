@@ -3,7 +3,8 @@ import { Card, CardContent, Typography } from "@mui/material";
 import "./Book.css";
 
 const Book = (props) => {
-  const { name, author, description, price, available, image, ownerId } = props.book;
+  const { name, author, description, price, available, image } = props.book;
+  const { showStatus } = props;  // Destructure showStatus prop
 
   return (
     <Card className="book-card">
@@ -13,12 +14,17 @@ const Book = (props) => {
         <Typography variant="h5">{name}</Typography>
         <Typography variant="body2">{description || 'No description available'}</Typography>
         <Typography variant="h6">Rs {price}</Typography>
-        <Typography
-          variant="body1" style={{ textAlign: 'center' }}
-          className={available ? "status-available" : "status-unavailable"}
-        >
-           {available ? "Available" : "Unavailable"}
-        </Typography>
+
+        {/* Conditionally render the status */}
+        {showStatus && (
+          <Typography
+            variant="body1"
+            style={{ textAlign: 'center' }}
+            className={available ? "status-available" : "status-unavailable"}
+          >
+            {available ? "Available" : "Unavailable"}
+          </Typography>
+        )}
       </CardContent>
     </Card>
   );

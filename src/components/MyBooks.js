@@ -9,13 +9,12 @@ const MyBooks = () => {
 
   useEffect(() => {
     const fetchMyBooks = async () => {
-      const token = localStorage.getItem("token");  // Get the token from localStorage
+      const token = localStorage.getItem("token");
 
       try {
-        // Fetch books belonging to the currently logged-in user
         const response = await axios.get("https://book-store-backend-2gzw.onrender.com/books/user-books", {
           headers: {
-            Authorization: `Bearer ${token}`,  // Include token in the Authorization header
+            Authorization: `Bearer ${token}`,
           },
         });
         setBooks(response.data.books);
@@ -46,10 +45,8 @@ const MyBooks = () => {
 
   return (
     <>
-      {/* Background container */}
       <div className="background-container"></div>
 
-      {/* Main content container */}
       <Box className="my-books-container">
         <Typography variant="h2" component="h1" className="my-books-heading" style={{ fontWeight: "bold", color: "black" }}>
           My Books
@@ -61,7 +58,8 @@ const MyBooks = () => {
           <Box className="my-books-grid">
             {books.map((book) => (
               <div key={book._id} className="book-card">
-                <Book book={book} />
+                {/* Pass showStatus={false} to hide the availability status */}
+                <Book book={book} showStatus={false} />
                 <Button variant="contained" className="delete-book-button" onClick={() => handleDeleteBook(book._id)}>
                   Delete from My Books
                 </Button>

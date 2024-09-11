@@ -117,9 +117,12 @@ const AllBooks = () => {
           <Box className="all-books-grid">
             {books.map((book) => (
               <div key={book._id} className="book-card">
-                <Book book={book} />
+                {/* Pass showStatus={true} to display the availability status */}
+                <Book book={book} showStatus={true} />
+                
                 {book.available ? (
                   <Typography variant="body1" className="status-available">
+                    Available
                   </Typography>
                 ) : (
                   <Typography
