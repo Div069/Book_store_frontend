@@ -35,7 +35,7 @@ const Signup = () => {
     <Box
       sx={{
         minHeight: "100vh", // Ensure the background covers the whole viewport
-        backgroundImage: `url(${cover})`, // Set the background image
+        backgroundImage: `linear-gradient(135deg, rgba(63, 81, 181, 0.8), rgba(255, 255, 255, 0.4)), url(${cover})`,
         backgroundSize: "cover", // Make sure the image covers the entire area
         backgroundPosition: "center", // Center the background image
         backgroundRepeat: "no-repeat", // Prevent the background from repeating
@@ -50,19 +50,19 @@ const Signup = () => {
           sx={{
             p: 4,
             backgroundColor: "rgba(255, 255, 255, 0.85)", // Slightly more opaque background
-            backdropFilter: "blur(8px)", // Reduced blur effect
+            backdropFilter: "blur(10px)", // Increased blur effect
             borderRadius: 3, // Slightly more rounded corners
-            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)", // Lighter shadow
+            boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.2)", // Lighter shadow
           }}
         >
-          <Typography variant="h4" color="primary" fontWeight="bold" gutterBottom>
+          <Typography variant="h4" sx={{ fontFamily: 'Poppins', fontWeight: 600 }} color="primary" gutterBottom>
             Join Book Haven
           </Typography>
           <Typography variant="h6" gutterBottom>
             Create Your Account
           </Typography>
           {error && (
-            <Typography variant="body2" color="error" gutterBottom>
+            <Typography variant="body2" color="error" gutterBottom sx={{ animation: "shake 0.3s" }}>
               {error}
             </Typography>
           )}
@@ -79,6 +79,7 @@ const Signup = () => {
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
                   borderColor: "#3f51b5",
+                  boxShadow: "0 0 8px rgba(63, 81, 181, 0.6)",
                 },
               }}
             />
@@ -94,6 +95,7 @@ const Signup = () => {
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
                   borderColor: "#3f51b5",
+                  boxShadow: "0 0 8px rgba(63, 81, 181, 0.6)",
                 },
               }}
             />
@@ -110,6 +112,7 @@ const Signup = () => {
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
                   borderColor: "#3f51b5",
+                  boxShadow: "0 0 8px rgba(63, 81, 181, 0.6)",
                 },
               }}
             />
@@ -122,10 +125,11 @@ const Signup = () => {
                 sx={{
                   mt: 3,
                   mb: 2,
-                  transition: "background-color 0.3s, transform 0.3s",
+                  backgroundColor: "#3f51b5",
                   "&:hover": {
-                    backgroundColor: "#3f51b5", // Hover color
-                    transform: "scale(1.02)",
+                    backgroundColor: "#303f9f",
+                    transform: "scale(1.05)",
+                    boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
                   },
                 }}
                 disabled={loading}
@@ -140,10 +144,12 @@ const Signup = () => {
             variant="outlined"
             color="secondary"
             sx={{
-              transition: "border-color 0.3s, transform 0.3s",
+              mt: 2,
+              mb: 2,
+              transition: "transform 0.3s, border-color 0.3s",
               "&:hover": {
                 borderColor: "#f50057",
-                transform: "scale(1.02)",
+                transform: "scale(1.05)",
               },
             }}
           >

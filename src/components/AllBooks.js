@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Book from "./Book/Book";
-import { Button, Box, Typography, CircularProgress } from "@mui/material";
+import { Button, Box, Typography, CircularProgress, Paper } from "@mui/material";
 import { Link } from "react-router-dom";
 import "./AllBooks.css";
 
 const AllBooks = () => {
   const [books, setBooks] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true); // Add loading state
-  const [error, setError] = useState(null); // Add error state for debugging
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
 
-  // Data fetching with improved error handling
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        setLoading(true);  // Set loading to true when starting to fetch
-        setError(null);    // Reset error before making the request
+        setLoading(true);  
+        setError(null);    
 
         const response = await axios.get("https://book-store-backend-2gzw.onrender.com/books");
         setBooks(response.data.books);
@@ -29,12 +28,12 @@ const AllBooks = () => {
         console.error("Error fetching books", err);
         setError("Failed to load books. Please try again.");
       } finally {
-        setLoading(false); // Always set loading to false after fetching
+        setLoading(false);
       }
     };
 
     fetchBooks();
-  }, []);  // The empty dependency array ensures it only runs once after mount
+  }, []);  
 
   const handleRequestAccess = async (bookId) => {
     try {
@@ -52,7 +51,7 @@ const AllBooks = () => {
       );
 
       const response = await axios.get("https://book-store-backend-2gzw.onrender.com/books");
-      setBooks(response.data.books); // Refresh books after requesting access
+      setBooks(response.data.books); 
     } catch (err) {
       console.error("Error requesting book", err);
     }
@@ -69,7 +68,7 @@ const AllBooks = () => {
       });
 
       const response = await axios.get("https://book-store-backend-2gzw.onrender.com/books");
-      setBooks(response.data.books); // Refresh books after deleting
+      setBooks(response.data.books); 
     } catch (err) {
       console.error("Error deleting book", err);
     }
@@ -82,6 +81,17 @@ const AllBooks = () => {
 
       {/* Main content container */}
       <Box className="all-books-container">
+        <Paper
+          elevation={6}
+          sx={{
+            p: 4,
+            borderRadius: 3,
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            backdropFilter: "blur(8px)",
+            marginBottom: 3,
+            textAlign: "center",
+          }}
+        >
         <Typography
           variant="h2"
           component="h1"
@@ -91,54 +101,71 @@ const AllBooks = () => {
           All Books
         </Typography>
 
-        {isAdmin && (
-          <Button
-            variant="contained"
-            color="primary"
-            component={Link}
-            to="/add"
-            className="add-book-button"
-          >
-            Add New Book
-          </Button>
-        )}
 
-        {loading ? ( // Show a loading spinner while data is being fetched
-          <Box display="flex" justifyContent="center" alignItems="center">
+
+          {isAdmin && (
+            <Button
+              variant="contained"
+              color="primary"
+              component={Link}
+              to="/add"
+              className="add-book-button"
+              sx={{
+                marginTop: 2,
+                backgroundColor: "#1976d2",
+                "&:hover": {
+                  backgroundColor: "#115293",
+                },
+              }}
+            >
+              Add New Book
+            </Button>
+          )}
+        </Paper>
+
+        {loading ? (
+          <Box display="flex" justifyContent="center" alignItems="center" sx={{ height: "50vh" }}>
             <CircularProgress />
           </Box>
-        ) : error ? ( // Show error message if there was an issue fetching data
+        ) : error ? (
           <Typography color="error" align="center" variant="h6">
             {error}
           </Typography>
-        ) : books.length === 0 ? ( // Show a message if no books are available
-          <Typography variant="h6">No books available.</Typography>
+        ) : books.length === 0 ? (
+          <Typography variant="h6" sx={{ textAlign: "center", marginTop: 3 }}>
+            No books available.
+          </Typography>
         ) : (
           <Box className="all-books-grid">
             {books.map((book) => (
-              <div key={book._id} className="book-card">
-                {/* Pass showStatus={true} to display the availability status */}
+              <Box key={book._id} className="book-card" sx={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)", borderRadius: 3, overflow: "hidden" }}>
                 <Book book={book} showStatus={true} />
-                
-                {book.available ? (
-                  <Typography variant="body1" className="status-available">
-                  </Typography>
-                ) : (
-                  <Typography
-                    variant="body1"
-                    style={{ textAlign: "center" }}
-                    className="status-unavailable"
-                  >
-                    Owned by {book.ownerId?.username || "Admin"} (
-                    {book.ownerId?.email || "admin@example.com"})
-                  </Typography>
-                )}
+
+                <Typography
+                  variant="body1"
+                  className={book.available ? "status-available" : "status-unavailable"}
+                  sx={{
+                    textAlign: "center",
+                    padding: "8px",
+                    color: book.available ? "#4caf50" : "#f44336",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {book.available ? "" : `Owned by ${book.ownerId?.username || "Admin"}`}
+                </Typography>
 
                 {book.available && !isAdmin && (
                   <Button
                     variant="contained"
                     className="request-access-button"
                     onClick={() => handleRequestAccess(book._id)}
+                    sx={{
+                      margin: 1,
+                      backgroundColor: "#4caf50",
+                      "&:hover": {
+                        backgroundColor: "#388e3c",
+                      },
+                    }}
                   >
                     Request Access
                   </Button>
@@ -149,11 +176,18 @@ const AllBooks = () => {
                     variant="contained"
                     className="delete-book-button"
                     onClick={() => handleDeleteBook(book._id)}
+                    sx={{
+                      margin: 1,
+                      backgroundColor: "#f44336",
+                      "&:hover": {
+                        backgroundColor: "#d32f2f",
+                      },
+                    }}
                   >
                     Delete Book
                   </Button>
                 )}
-              </div>
+              </Box>
             ))}
           </Box>
         )}

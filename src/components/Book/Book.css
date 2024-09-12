@@ -1,44 +1,96 @@
+/* General Layout */
 ul {
   display: flex;
-  flex-direction: row;
-  align-content: center;
-  justify-content: space-around;
   flex-wrap: wrap;
-}
-li {
-  padding: 10px;
-  margin: 10px;
-  width: 250px;
-  max-width: 250px;
-  max-height: 400px;
-  list-style-type: none;
-  justify-content: flex-start;
+  justify-content: space-around;
+  padding: 0;
+  margin: 0;
 }
 
-.card {
-  margin: auto;
-  padding: 5px;
-  height: 100%;
-  width: 100%;
-  box-shadow: 5px 5px 10px #ccc;
+li {
+  padding: 15px;
+  margin: 20px;
+  width: 280px; /* Slightly wider for better content layout */
+  max-width: 280px;
+  max-height: 450px; /* Increased height to balance content */
+  list-style-type: none;
+}
+
+/* Card Styles */
+.book-card {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Softer shadow for a modern look */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+  background-color: #ffffff; /* Clean, modern background */
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  /* align-items: flex-start;
-  align-content: flex-start; */
+  justify-content: flex-start;
+  text-align: left; /* Aligns text neatly */
 }
-.card > img {
+
+.book-card:hover {
+  transform: translateY(-10px); /* Subtle hover effect */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced hover shadow */
+}
+
+.book-image {
   width: 100%;
-  height: 50%;
-}
-.card article {
-  padding: 5px;
-}
-.card h3 {
-  padding: 4px;
+  height: 200px;
+  object-fit: cover; /* Keeps images in proportion */
+  border-bottom: 2px solid #f0f0f0; /* Divides the image and content */
 }
 
-.card p {
-  padding: 3x;
+/* Typography */
+.book-card h5 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #333333; /* Dark text for better readability */
 }
 
+.book-card h6 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #666666; /* Softer text for author and price */
+}
+
+.book-card p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-top: 5px;
+  color: #777777; /* Subtle text color for descriptions */
+}
+
+/* Price Tag */
+.book-card .price {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #e53935; /* Eye-catching red for price */
+  margin-top: 10px;
+}
+
+/* Availability Status */
+.status-available {
+  color: #4caf50; /* Green for available */
+  font-weight: bold;
+}
+
+.status-unavailable {
+  color: #e53935; /* Red for unavailable */
+  font-weight: bold;
+}
+
+.book-card .status {
+  margin-top: 15px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* Card Container */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive grid */
+  gap: 20px;
+  padding: 20px;
+}

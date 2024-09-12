@@ -1,101 +1,95 @@
-/* Background Image Container */
-.background-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background-image: url('./DALL·E\ DallE.webp'); /* Adjust the path */
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  filter: blur(5px);
+/* General page styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
 }
 
-/* Main content container */
+/* Background styling */
+.background-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(63, 81, 181, 0.7), rgba(255, 255, 255, 0.7)), url("./DALL·E\ DallE.webp");
+  background-size: cover;
+  background-position: center;
+  filter: blur(2px);
+  z-index: -1;
+}
+
+/* AllBooks page container */
 .all-books-container {
-  position: relative;
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding: 20px;
-  z-index: 1;
-  animation: fadeIn 2s ease-in-out;  /* Apply fade-in animation to the main container */
 }
 
+/* Grid layout for books */
 .all-books-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));  /* Adjust the column size */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
   margin-top: 20px;
-  width: 100%;
 }
 
-/* Dynamically adjusting book cards */
+/* Book card styling */
 .book-card {
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease-in-out;
   background-color: white;
-  animation: fadeIn 1.5s ease-in-out;  /* Apply the fade-in animation to individual cards */
-  opacity: 0;
-  animation-fill-mode: forwards; /* Ensures animation stays in final state */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: auto; /* Remove fixed height */
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-/* Make sure images fit the card without overflow */
-.book-image {
-  width: 100%; /* Ensure image takes full width */
-  height: auto; /* Maintain image aspect ratio */
-  max-height: 250px; /* Limit image height */
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 15px;
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Ensure content fits properly within the card */
-.book-content {
-  text-align: center;
-  padding: 10px 0;
-}
-
+/* Status styling */
 .status-available {
-  color: darkgreen;
+  color: #4caf50;
 }
 
 .status-unavailable {
-  color: red;
+  color: #f44336;
 }
 
-/* Buttons */
-.request-access-button,
-.delete-book-button {
+/* Button styling */
+.add-book-button {
+  background-color: #1976d2;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.add-book-button:hover {
+  background-color: #115293;
+  transform: scale(1.05);
+}
+
+.request-access-button, .delete-book-button {
+  width: 100%;
   margin-top: 10px;
-  transition: background-color 0.3s;
+  font-weight: bold;
 }
 
-.request-access-button:hover {
-  background-color: #3f51b5;
+/* Add more spacing and styling for the heading */
+/* Updated heading styling to ensure it's not too distinct */
+.all-books-heading {
+  margin-bottom: 20px;
+  transition: color 0.3s ease; /* Smooth transition if color changes */
 }
 
-.delete-book-button:hover {
-  background-color: #f44336;
-}
 
-/* Fade-in animation */
 @keyframes fadeIn {
-  0% {
+  from {
     opacity: 0;
-    transform: translateY(50px);  /* Start from slightly below */
   }
-  100% {
+  to {
     opacity: 1;
-    transform: translateY(0);  /* End at normal position */
   }
 }
+

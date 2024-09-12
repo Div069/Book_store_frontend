@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Book from "./Book/Book";
-import { Button, Box, Typography } from "@mui/material";
+import { Button, Box, Typography, Paper } from "@mui/material";
 import "./MyBooks.css";
 
 const MyBooks = () => {
@@ -48,19 +48,43 @@ const MyBooks = () => {
       <div className="background-container"></div>
 
       <Box className="my-books-container">
-        <Typography variant="h2" component="h1" className="my-books-heading" style={{ fontWeight: "bold", color: "black" }}>
+        <Paper
+          elevation={6}
+          sx={{
+            p: 4,
+            borderRadius: 3,
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            backdropFilter: "blur(8px)",
+            marginBottom: 3,
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="h2" component="h1" className="my-books-heading" style={{ fontWeight: "bold", color: "black" }}>
           My Books
         </Typography>
+        </Paper>
 
         {books.length === 0 ? (
-          <Typography variant="h6">You have no books in your collection.</Typography>
+          <Typography variant="h6" sx={{ textAlign: "center", marginTop: 3 }}>
+            You have no books in your collection.
+          </Typography>
         ) : (
           <Box className="my-books-grid">
             {books.map((book) => (
               <div key={book._id} className="book-card">
-                {/* Pass showStatus={false} to hide the availability status */}
                 <Book book={book} showStatus={false} />
-                <Button variant="contained" className="delete-book-button" onClick={() => handleDeleteBook(book._id)}>
+                <Button
+                  variant="contained"
+                  className="delete-book-button"
+                  onClick={() => handleDeleteBook(book._id)}
+                  sx={{
+                    marginTop: "10px",
+                    backgroundColor: "#f44336",
+                    "&:hover": {
+                      backgroundColor: "#d32f2f",
+                    },
+                  }}
+                >
                   Delete from My Books
                 </Button>
               </div>
