@@ -34,7 +34,7 @@ const UsersList = () => {
 
   return (
     <>
-      {/* Background container */}
+
       <div className="background-container"></div>
 
       <div className="users-list-container">

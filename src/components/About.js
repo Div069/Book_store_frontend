@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import "./About.css"; // Ensure you have this CSS file for the background
+import "./About.css"; 
 
 const About = () => {
   return (

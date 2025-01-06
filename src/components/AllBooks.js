@@ -76,10 +76,9 @@ const AllBooks = () => {
 
   return (
     <>
-      {/* Background container */}
       <div className="background-container"></div>
 
-      {/* Main content container */}
+
       <Box className="all-books-container">
         <Paper
           elevation={6}

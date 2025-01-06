@@ -56,14 +56,14 @@
   margin: 5px 0;
 }
 
-/* Fade-in animation */
+
 @keyframes fadeIn {
   0% {
     opacity: 0;
-    transform: translateY(50px);  /* Start from slightly below */
+    transform: translateY(50px);  
   }
   100% {
     opacity: 1;
-    transform: translateY(0);  /* End at normal position */
+    transform: translateY(0); 
   }
 }

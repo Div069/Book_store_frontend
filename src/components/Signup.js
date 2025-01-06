@@ -34,14 +34,14 @@ const Signup = () => {
   return (
     <Box
       sx={{
-        minHeight: "100vh", // Ensure the background covers the whole viewport
+        minHeight: "100vh", 
         backgroundImage: `linear-gradient(135deg, rgba(63, 81, 181, 0.8), rgba(255, 255, 255, 0.4)), url(${cover})`,
-        backgroundSize: "cover", // Make sure the image covers the entire area
-        backgroundPosition: "center", // Center the background image
-        backgroundRepeat: "no-repeat", // Prevent the background from repeating
-        display: "flex", // Use flexbox to center the form
-        justifyContent: "center", // Center horizontally
-        alignItems: "center", // Center vertically
+        backgroundSize: "cover", 
+        backgroundPosition: "center", 
+        backgroundRepeat: "no-repeat", 
+        display: "flex", 
+        justifyContent: "center",
+        alignItems: "center", 
       }}
     >
       <Container maxWidth="xs">
@@ -49,10 +49,10 @@ const Signup = () => {
           elevation={6}
           sx={{
             p: 4,
-            backgroundColor: "rgba(255, 255, 255, 0.85)", // Slightly more opaque background
-            backdropFilter: "blur(10px)", // Increased blur effect
-            borderRadius: 3, // Slightly more rounded corners
-            boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.2)", // Lighter shadow
+            backgroundColor: "rgba(255, 255, 255, 0.85)", 
+            backdropFilter: "blur(10px)", 
+            borderRadius: 3, 
+            boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.2)", 
           }}
         >
           <Typography variant="h4" sx={{ fontFamily: 'Poppins', fontWeight: 600 }} color="primary" gutterBottom>

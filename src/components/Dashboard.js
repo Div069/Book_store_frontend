@@ -49,7 +49,6 @@ const Dashboard = () => {
         Library Dashboard
       </Typography>
       <Grid container spacing={4}>
-        {/* Total Books */}
         <Grid item xs={12} sm={6} md={3}>
           <Card
             sx={{
@@ -71,7 +70,6 @@ const Dashboard = () => {
           </Card>
         </Grid>
 
-        {/* Borrowed Books */}
         <Grid item xs={12} sm={6} md={3}>
           <Card
             sx={{
@@ -93,7 +91,6 @@ const Dashboard = () => {
           </Card>
         </Grid>
 
-        {/* Available Books */}
         <Grid item xs={12} sm={6} md={3}>
           <Card
             sx={{
@@ -115,7 +112,7 @@ const Dashboard = () => {
           </Card>
         </Grid>
 
-        {/* Total Users */}
+
         <Grid item xs={12} sm={6} md={3}>
           <Card
             sx={{

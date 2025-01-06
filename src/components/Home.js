@@ -27,7 +27,7 @@ const Home = () => {
             left: 0,
             width: '100%',
             height: '100%',
-            background: 'rgba(0, 0, 0, 0.9)', // Adjust the rgba values to set opacity
+            background: 'rgba(0, 0, 0, 0.9)', 
             zIndex: 1,
           }
         }}
@@ -38,11 +38,11 @@ const Home = () => {
           sx={{
             color: 'white',
             mb: 3,
-            zIndex: 2, // Ensure text is above the overlay
-            animation: 'fadeIn 2s ease-in-out', // Apply fade-in animation
+            zIndex: 2, 
+            animation: 'fadeIn 2s ease-in-out', 
             '@keyframes fadeIn': {
-              '0%': { opacity: 0, color: 'rgba(255, 255, 255, 0.5)' }, // Start as faded with lighter color
-              '100%': { opacity: 1, color: 'rgba(255, 255, 255, 1)' } // End with full opacity and dark color
+              '0%': { opacity: 0, color: 'rgba(255, 255, 255, 0.5)' }, 
+              '100%': { opacity: 1, color: 'rgba(255, 255, 255, 1)' } 
             }
           }}
         >
