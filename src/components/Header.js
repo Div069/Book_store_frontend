@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { AppBar, Tab, Tabs, Toolbar, Typography, Button, IconButton, useMediaQuery } from "@mui/material";
+import {
+  AppBar,
+  Tab,
+  Tabs,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+  useMediaQuery,
+} from "@mui/material";
 import LibraryBooksOutlinedIcon from "@mui/icons-material/LibraryBooksOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -22,11 +31,24 @@ const Header = () => {
   };
 
   return (
-    <AppBar position="sticky" sx={{ backgroundColor: "#6d6d6d", boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)" }}>
+    <AppBar
+      position="sticky"
+      sx={{
+        backgroundColor: "#6d6d6d",
+        boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)",
+      }}
+    >
       <Toolbar>
         {/* Brand Logo */}
-        <NavLink to={isAuthenticated ? "/home" : "/"} style={{ textDecoration: "none", color: "white" }}>
-          <Typography variant="h6" noWrap sx={{ display: "flex", alignItems: "center" }}>
+        <NavLink
+          to={isAuthenticated ? "/home" : "/"}
+          style={{ textDecoration: "none", color: "white" }}
+        >
+          <Typography
+            variant="h6"
+            noWrap
+            sx={{ display: "flex", alignItems: "center" }}
+          >
             <LibraryBooksOutlinedIcon sx={{ fontSize: 28, mr: 1 }} />
             <span>Book Haven</span>
           </Typography>
@@ -47,11 +69,32 @@ const Header = () => {
           >
             {isAuthenticated ? (
               <>
-                {!isAdmin && <Tab LinkComponent={NavLink} to="/my-books" label="My Books" />}
+                {!isAdmin && (
+                  <Tab LinkComponent={NavLink} to="/my-books" label="My Books" />
+                )}
                 <Tab LinkComponent={NavLink} to="/all-books" label="All Books" />
+                <Tab
+                  LinkComponent={NavLink}
+                  to="/dashboard"
+                  label="Dashboard"
+                />
                 <Tab LinkComponent={NavLink} to="/about" label="About Us" />
                 <Tab LinkComponent={NavLink} to="/users" label="Members" />
-                <Button onClick={handleLogout} sx={{ ml: 2, color: "white", fontWeight: "bold" }}>
+                {isAdmin && (
+                  <Tab
+                    LinkComponent={NavLink}
+                    to="/transactions"
+                    label="Transactions"
+                  />
+                )}
+                <Button
+                  onClick={handleLogout}
+                  sx={{
+                    ml: 2,
+                    color: "white",
+                    fontWeight: "bold",
+                  }}
+                >
                   Logout
                 </Button>
               </>
