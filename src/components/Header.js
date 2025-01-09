@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 const Header = () => {
   const [showHeader, setShowHeader] = useState(true);
   const navigate = useNavigate();
+  const isAuthenticated = !!localStorage.getItem("token");
+  const isAdmin = localStorage.getItem("email") === "admin@example.com";
+
   let lastScrollPosition = 0;
 
   useEffect(() => {
@@ -52,15 +55,32 @@ const Header = () => {
         </Typography>
 
         <Tabs textColor="inherit" indicatorColor="secondary">
-          <Tab label="My Books" onClick={() => navigate("/my-books")} />
-          <Tab label="All Books" onClick={() => navigate("/all-books")} />
-          <Tab label="Dashboard" onClick={() => navigate("/dashboard")} />
-          <Tab label="About" onClick={() => navigate("/about")} />
+          {isAuthenticated ? (
+            <>
+              <Tab label="My Books" onClick={() => navigate("/my-books")} />
+              <Tab label="All Books" onClick={() => navigate("/all-books")} />
+              <Tab label="Dashboard" onClick={() => navigate("/dashboard")} />
+              <Tab label="About" onClick={() => navigate("/about")} />
+              {isAdmin && (
+                <Tab
+                  label="Transactions"
+                  onClick={() => navigate("/transactions")}
+                />
+              )}
+            </>
+          ) : (
+            <>
+              <Tab label="Login" onClick={() => navigate("/login")} />
+              <Tab label="Signup" onClick={() => navigate("/signup")} />
+            </>
+          )}
         </Tabs>
 
-        <Button color="inherit" onClick={handleLogout}>
-          Logout
-        </Button>
+        {isAuthenticated && (
+          <Button color="inherit" onClick={handleLogout}>
+            Logout
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );

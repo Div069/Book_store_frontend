@@ -16,7 +16,7 @@ import Transactions from "./components/Transaction";
 import { Snackbar, Alert } from "@mui/material";
 
 const ProtectedRoute = ({ element: Element }) => {
-  const isAuthenticated = localStorage.getItem("token");
+  const isAuthenticated = !!localStorage.getItem("token");
   return isAuthenticated ? <Element /> : <Navigate to="/login" />;
 };
 
@@ -25,7 +25,9 @@ function App() {
   const [notification, setNotification] = useState(null);
 
   useEffect(() => {
-    const eventSource = new EventSource("https://book-store-backend-2gzw.onrender.com/books/notifications");
+    const eventSource = new EventSource(
+      "https://book-store-backend-2gzw.onrender.com/books/notifications"
+    );
 
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
@@ -44,7 +46,12 @@ function App() {
       </header>
       <main>
         <Routes>
-          <Route path="/" element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />} />
+          <Route
+            path="/"
+            element={
+              isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/home" element={<ProtectedRoute element={Home} />} />
@@ -55,8 +62,14 @@ function App() {
           <Route path="/about" element={<ProtectedRoute element={About} />} />
           <Route path="/books/:id" element={<ProtectedRoute element={BookDetail} />} />
           <Route path="/users" element={<ProtectedRoute element={UsersList} />} />
-          <Route path="/dashboard" element={<ProtectedRoute element={Dashboard} />} />
-          <Route path="/transactions" element={<ProtectedRoute element={Transactions} />} />
+          <Route
+            path="/dashboard"
+            element={<ProtectedRoute element={Dashboard} />}
+          />
+          <Route
+            path="/transactions"
+            element={<ProtectedRoute element={Transactions} />}
+          />
         </Routes>
         {notification && (
           <Snackbar
@@ -65,7 +78,11 @@ function App() {
             onClose={() => setNotification(null)}
             anchorOrigin={{ vertical: "top", horizontal: "right" }}
           >
-            <Alert onClose={() => setNotification(null)} severity="info" sx={{ width: "100%" }}>
+            <Alert
+              onClose={() => setNotification(null)}
+              severity="info"
+              sx={{ width: "100%" }}
+            >
               {notification}
             </Alert>
           </Snackbar>
