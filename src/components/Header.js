@@ -57,10 +57,14 @@ const Header = () => {
         <Tabs textColor="inherit" indicatorColor="secondary">
           {isAuthenticated ? (
             <>
-              <Tab label="My Books" onClick={() => navigate("/my-books")} />
+              {/* Only non-admin users see "My Books" */}
+              {!isAdmin && (
+                <Tab label="My Books" onClick={() => navigate("/my-books")} />
+              )}
               <Tab label="All Books" onClick={() => navigate("/all-books")} />
               <Tab label="Dashboard" onClick={() => navigate("/dashboard")} />
               <Tab label="About" onClick={() => navigate("/about")} />
+              <Tab label="Members" onClick={() => navigate("/users")} />
               {isAdmin && (
                 <Tab
                   label="Transactions"
