@@ -1,27 +1,28 @@
-import React, { useState } from "react";
-import {
-  AppBar,
-  Tab,
-  Tabs,
-  Toolbar,
-  Typography,
-  Button,
-  IconButton,
-  useMediaQuery,
-} from "@mui/material";
-import LibraryBooksOutlinedIcon from "@mui/icons-material/LibraryBooksOutlined";
-import MenuIcon from "@mui/icons-material/Menu";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
+import React, { useState, useEffect } from "react";
+import { AppBar, Toolbar, Typography, Tabs, Tab, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-  const [value, setValue] = useState();
+  const [showHeader, setShowHeader] = useState(true);
   const navigate = useNavigate();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md")); // Adjust based on screen size
+  let lastScrollPosition = 0;
 
-  const isAuthenticated = !!localStorage.getItem("token");
-  const isAdmin = localStorage.getItem("email") === "admin@example.com";
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScroll = window.scrollY;
+      if (currentScroll > lastScrollPosition) {
+        // Scrolling down
+        setShowHeader(false);
+      } else {
+        // Scrolling up
+        setShowHeader(true);
+      }
+      lastScrollPosition = currentScroll;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -33,79 +34,33 @@ const Header = () => {
   return (
     <AppBar
       position="sticky"
-      sx={{
-        backgroundColor: "#6d6d6d",
-        boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)",
+      style={{
+        transform: showHeader ? "translateY(0)" : "translateY(-100%)",
+        transition: "transform 0.3s ease-in-out",
+        backgroundColor: "#404041",
+        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
       }}
     >
       <Toolbar>
-        {/* Brand Logo */}
-        <NavLink
-          to={isAuthenticated ? "/home" : "/"}
-          style={{ textDecoration: "none", color: "white" }}
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1, cursor: "pointer" }}
+          onClick={() => navigate("/home")}
         >
-          <Typography
-            variant="h6"
-            noWrap
-            sx={{ display: "flex", alignItems: "center" }}
-          >
-            <LibraryBooksOutlinedIcon sx={{ fontSize: 28, mr: 1 }} />
-            <span>Book Haven</span>
-          </Typography>
-        </NavLink>
+          Book Haven
+        </Typography>
 
-        {/* Responsive Tabs or Menu Icon */}
-        {isMobile ? (
-          <IconButton sx={{ ml: "auto", color: "white" }}>
-            <MenuIcon />
-          </IconButton>
-        ) : (
-          <Tabs
-            sx={{ ml: "auto" }}
-            textColor="inherit"
-            indicatorColor="primary"
-            value={value}
-            onChange={(e, val) => setValue(val)}
-          >
-            {isAuthenticated ? (
-              <>
-                {!isAdmin && (
-                  <Tab LinkComponent={NavLink} to="/my-books" label="My Books" />
-                )}
-                <Tab LinkComponent={NavLink} to="/all-books" label="All Books" />
-                <Tab
-                  LinkComponent={NavLink}
-                  to="/dashboard"
-                  label="Dashboard"
-                />
-                <Tab LinkComponent={NavLink} to="/about" label="About Us" />
-                <Tab LinkComponent={NavLink} to="/users" label="Members" />
-                {isAdmin && (
-                  <Tab
-                    LinkComponent={NavLink}
-                    to="/transactions"
-                    label="Transactions"
-                  />
-                )}
-                <Button
-                  onClick={handleLogout}
-                  sx={{
-                    ml: 2,
-                    color: "white",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Logout
-                </Button>
-              </>
-            ) : (
-              <>
-                <Tab LinkComponent={NavLink} to="/login" label="Login" />
-                <Tab LinkComponent={NavLink} to="/signup" label="Signup" />
-              </>
-            )}
-          </Tabs>
-        )}
+        <Tabs textColor="inherit" indicatorColor="secondary">
+          <Tab label="My Books" onClick={() => navigate("/my-books")} />
+          <Tab label="All Books" onClick={() => navigate("/all-books")} />
+          <Tab label="Dashboard" onClick={() => navigate("/dashboard")} />
+          <Tab label="About" onClick={() => navigate("/about")} />
+        </Tabs>
+
+        <Button color="inherit" onClick={handleLogout}>
+          Logout
+        </Button>
       </Toolbar>
     </AppBar>
   );

@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Book from "./Book/Book";
+import Notification from "./Notification"; // Import Notification component
 import { Button, Box, Typography, Paper } from "@mui/material";
 import "./MyBooks.css";
 
 const MyBooks = () => {
   const [books, setBooks] = useState([]);
+  const [notification, setNotification] = useState(null); // Notification state
 
+  // Fetch user's books
   useEffect(() => {
     const fetchMyBooks = async () => {
       const token = localStorage.getItem("token");
@@ -26,6 +29,21 @@ const MyBooks = () => {
     fetchMyBooks();
   }, []);
 
+  // Setup SSE connection for notifications
+  useEffect(() => {
+    const eventSource = new EventSource("https://book-store-backend-2gzw.onrender.com/books/notifications");
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      setNotification(data.message);
+    };
+
+    return () => {
+      eventSource.close(); // Close the SSE connection when the component unmounts
+    };
+  }, []);
+
+  // Delete book handler
   const handleDeleteBook = async (bookId) => {
     try {
       const token = localStorage.getItem("token");
@@ -38,13 +56,19 @@ const MyBooks = () => {
 
       const updatedBooks = books.filter((book) => book._id !== bookId);
       setBooks(updatedBooks);
+
+      setNotification("Book removed successfully!"); // Trigger notification
     } catch (err) {
       console.error("Error deleting the book", err);
+      setNotification("Failed to remove the book.");
     }
   };
 
   return (
     <>
+      {/* Notification Component */}
+      <Notification message={notification} onClose={() => setNotification(null)} />
+
       <div className="background-container"></div>
 
       <Box className="my-books-container">
@@ -59,9 +83,14 @@ const MyBooks = () => {
             textAlign: "center",
           }}
         >
-          <Typography variant="h2" component="h1" className="my-books-heading" style={{ fontWeight: "bold", color: "black" }}>
-          My Books
-        </Typography>
+          <Typography
+            variant="h2"
+            component="h1"
+            className="my-books-heading"
+            style={{ fontWeight: "bold", color: "black" }}
+          >
+            My Books
+          </Typography>
         </Paper>
 
         {books.length === 0 ? (
