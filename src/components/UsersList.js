@@ -16,7 +16,7 @@ const UsersList = () => {
           return;
         }
   
-        const response = await axios.get('https://book-store-backend-2gzw.onrender.comckend-2gzw.onrender.com/auth/users', {
+        const response = await axios.get('https://book-store-backend-2gzw.onrender.com/auth/users', {
           headers: {
             Authorization: `Bearer ${token}`,  // Send token in Authorization header
           },
